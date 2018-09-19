@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author aitor
  */
 
-public class Application {
+public class ApplicationClass {
         
     private final SimpleStringProperty ID;
     private final SimpleStringProperty Name;
@@ -20,7 +20,7 @@ public class Application {
     private final SimpleStringProperty Size;
     
     
-    public Application(String id, String appName, String owner, String type, String size) { //derrigortuta nago, ezta? public jartzera beste pakete batetik sortuko dudalako?
+    public ApplicationClass(String id, String appName, String owner, String type, String size) { //derrigortuta nago, ezta? public jartzera beste pakete batetik sortuko dudalako?
         this.ID = new SimpleStringProperty(id);
         this.Name = new SimpleStringProperty(appName);
         this.Owner = new SimpleStringProperty(owner);
