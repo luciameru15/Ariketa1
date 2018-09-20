@@ -22,119 +22,104 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import controller.GestionListaEnMemoria;
-import model.ApplicationClass;
 
+import model.Person;
+
+
+/**
+ *
+ * @author idoia
+ */
 public class MainWindow extends Application {
 
-    private final TableView<ApplicationClass> table = new TableView<>();
+    private final TableView<Person> table = new TableView<>();
 
     final HBox hb = new HBox();
-
+    
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
-
-        ObservableList<ApplicationClass> data = GestionListaEnMemoria.cargarDatos();
-
-        stage.setTitle("Aplikazioen Taula");
-        stage.setWidth(850);
+        
+        ObservableList<Person> data = GestionListaEnMemoria.cargarDatos();
+        
+        stage.setTitle("Datuen Taula");
+        stage.setWidth(450);
         stage.setHeight(550);
-        final Label label = new Label("Aplikazioak");
+        final Label label = new Label("Pertsonak");
         label.setFont(new Font("Arial", 20));
-
-        table.setEditable(false);
-
-        TableColumn<ApplicationClass, String> idCol = new TableColumn<>("ID");
-        idCol.setMinWidth(100);
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setCellFactory(TextFieldTableCell.<ApplicationClass>forTableColumn());
-        idCol.setOnEditCommit(
-                (TableColumn.CellEditEvent<ApplicationClass, String> t) -> {
-                    ((ApplicationClass) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).setId(t.getNewValue());
-                });
-
-        TableColumn<ApplicationClass, String> appNameCol = new TableColumn<>("Izena");
-        appNameCol.setMinWidth(100);
-        appNameCol.setCellValueFactory(new PropertyValueFactory<>("Izena"));
-        appNameCol.setCellFactory(TextFieldTableCell.<ApplicationClass>forTableColumn());
-        appNameCol.setOnEditCommit(
-                (TableColumn.CellEditEvent<ApplicationClass, String> t) -> {
-                    ((ApplicationClass) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).setName(t.getNewValue());
-                });
-
-        TableColumn<ApplicationClass, String> ownerCol = new TableColumn<>("Owner");
-        ownerCol.setMinWidth(200);
-        ownerCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
-        ownerCol.setCellFactory(TextFieldTableCell.<ApplicationClass>forTableColumn());
-        ownerCol.setOnEditCommit(
-                (TableColumn.CellEditEvent<ApplicationClass, String> t) -> {
-                    ((ApplicationClass) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).setOwner(t.getNewValue());
-                });
-        TableColumn<ApplicationClass, String> typeCol = new TableColumn<>("Type");
-        typeCol.setMinWidth(200);
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        typeCol.setCellFactory(TextFieldTableCell.<ApplicationClass>forTableColumn());
-        typeCol.setOnEditCommit(
-                (TableColumn.CellEditEvent<ApplicationClass, String> t) -> {
-                    ((ApplicationClass) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).setType(t.getNewValue());
-                });
-        TableColumn<ApplicationClass, String> sizeCol = new TableColumn<>("Size");
-        sizeCol.setMinWidth(200);
-        sizeCol.setCellValueFactory(new PropertyValueFactory<>("Size"));
-        sizeCol.setCellFactory(TextFieldTableCell.<ApplicationClass>forTableColumn());
-        sizeCol.setOnEditCommit(
-                (TableColumn.CellEditEvent<ApplicationClass, String> t) -> {
-                    ((ApplicationClass) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).setSize(t.getNewValue());
-                });
+        
+        table.setEditable(true);
+        
+        TableColumn<Person, String> firstNameCol =
+            new TableColumn<>("Izena");
+        firstNameCol.setMinWidth(100);
+        firstNameCol.setCellValueFactory(
+            new PropertyValueFactory<>("firstName"));
+        firstNameCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+        firstNameCol.setOnEditCommit(
+            (TableColumn.CellEditEvent<Person, String> t) -> {
+            ((Person) t.getTableView().getItems().get(
+            t.getTablePosition().getRow())
+            ).setFirstName(t.getNewValue());
+            });
+        
+        TableColumn<Person, String> lastNameCol =
+            new TableColumn<>("Abizena");
+        lastNameCol.setMinWidth(100);
+        lastNameCol.setCellValueFactory(
+            new PropertyValueFactory<>("lastName"));
+        lastNameCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+        lastNameCol.setOnEditCommit(
+            (TableColumn.CellEditEvent<Person, String> t) -> {
+            ((Person) t.getTableView().getItems().get(
+            t.getTablePosition().getRow())
+            ).setLastName(t.getNewValue());
+            });
+        
+        TableColumn<Person, String> emailCol = new TableColumn<>("eMaila");
+        emailCol.setMinWidth(200);
+        emailCol.setCellValueFactory(
+        new PropertyValueFactory<>("email"));
+        emailCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+        emailCol.setOnEditCommit(
+            (TableColumn.CellEditEvent<Person, String> t) -> {
+                ((Person) t.getTableView().getItems().get(
+                t.getTablePosition().getRow())
+                ).setEmail(t.getNewValue());
+            });
         table.setItems(data);
-        table.getColumns().addAll(idCol, appNameCol, ownerCol, typeCol, sizeCol);
-        final TextField addId = new TextField();
-        addId.setPromptText("ID");
-        addId.setMaxWidth(idCol.getPrefWidth());
-        final TextField addName = new TextField();
-        addName.setMaxWidth(appNameCol.getPrefWidth());
-        addName.setPromptText("Izena");
-        final TextField addOwner = new TextField();
-        addOwner.setMaxWidth(ownerCol.getPrefWidth());
-        addOwner.setPromptText("Owner");
-        final TextField addType = new TextField();
-        addType.setMaxWidth(typeCol.getPrefWidth());
-        addType.setPromptText("Type");
-        final TextField addSize = new TextField();
-        addSize.setMaxWidth(sizeCol.getPrefWidth());
-        addSize.setPromptText("Size");
-
-        final Button addButton = new Button("Gehitu");
+        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
+        final TextField addFirstName = new TextField();
+        addFirstName.setPromptText("izen");
+        addFirstName.setMaxWidth(firstNameCol.getPrefWidth());
+        final TextField addLastName = new TextField();
+        addLastName.setMaxWidth(lastNameCol.getPrefWidth());
+        addLastName.setPromptText("abizen");
+        final TextField addEmail = new TextField();
+        addEmail.setMaxWidth(emailCol.getPrefWidth());
+        addEmail.setPromptText("email");
+       
+        final Button addButton = new Button("Gehitu");        
         addButton.setOnAction((ActionEvent e) -> {
-            ApplicationClass a = new ApplicationClass(
-                    addId.getText(),
-                    addName.getText(),
-                    addOwner.getText(),
-                    addType.getText(),
-                    addSize.getText());
-            data.add(a);
-
-            addId.clear();
-            addName.clear();
-            addOwner.clear();
-            addType.clear();
-            addSize.clear();
+            Person p = new Person(
+                addFirstName.getText(),
+                addLastName.getText(),
+                addEmail.getText());
+            data.add(p);
+            
+            addFirstName.clear();
+            addLastName.clear();
+            addEmail.clear();
         });
-
-        final Button removeButton = new Button("Ezabatu");
+        
+        final Button removeButton = new Button("Ezabatu");        
         removeButton.setOnAction((ActionEvent e) -> {
-            ApplicationClass app = table.getSelectionModel().getSelectedItem();
-            data.remove(app);
+            Person person = table.getSelectionModel().getSelectedItem();    
+            data.remove(person);
         });
-
-        hb.getChildren().addAll(addId, addName, addOwner, addType, addSize, addButton, removeButton);
+        
+        hb.getChildren().addAll(addFirstName, addLastName, addEmail, addButton, removeButton);
         hb.setSpacing(3);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -142,8 +127,8 @@ public class MainWindow extends Application {
         vbox.getChildren().addAll(label, table, hb);
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
         stage.setScene(scene);
-        stage.show();
-
+        stage.show();        
+        
     }
 
     /**
@@ -152,5 +137,5 @@ public class MainWindow extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
 }

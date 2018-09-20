@@ -6,6 +6,7 @@
 package model;
 
 import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author aitor
@@ -13,48 +14,39 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class ApplicationClass {
         
-    private final SimpleStringProperty ID;
-    private final SimpleStringProperty Name;
-    private final SimpleStringProperty Owner;
-    private final SimpleStringProperty Type;
-    private final SimpleStringProperty Size;
+    private final SimpleStringProperty Id;
+    private final SimpleStringProperty appName;
+    private final SimpleStringProperty owner;
+    private final SimpleStringProperty type;
     
-    
-    public ApplicationClass(String id, String appName, String owner, String type, String size) { //derrigortuta nago, ezta? public jartzera beste pakete batetik sortuko dudalako?
-        this.ID = new SimpleStringProperty(id);
-        this.Name = new SimpleStringProperty(appName);
-        this.Owner = new SimpleStringProperty(owner);
-        this.Type = new SimpleStringProperty(type);
-        this.Size = new SimpleStringProperty(size);
+    public ApplicationClass(String id, String aName, String owner, String type) { //derrigortuta nago, ezta? public jartzera beste pakete batetik sortuko dudalako?
+        this.Id = new SimpleStringProperty(id);
+        this.appName = new SimpleStringProperty(aName);
+        this.owner = new SimpleStringProperty(owner);
+        this.type = new SimpleStringProperty(type);
     }
-    public String getId() {
-        return ID.get();
+    public String getID() {
+        return Id.get();
     }
-    public void setId(String id) {
-        ID.set(id);
+    public void setID(String id) {
+        Id.set(id);
     }
-    public String getName() {
-        return Name.get();
+    public String getAppName() {
+        return appName.get();
     }
-    public void setName(String id) {
-        Name.set(id);
+    public void setAppName(String id) {
+        appName.set(id);
     }
     public String getOwner() {
-        return Owner.get();
+        return owner.get();
     }
     public void setOwner(String id) {
-        Owner.set(id);
+        owner.set(id);
     }
     public String getType() {
-        return Type.get();
+       return type.get();
     }
     public void setType(String id) {
-        Type.set(id);
-    }
-    public String getSize() {
-        return Size.get();
-    }
-    public void setSize(String id) {
-        Size.set(id);
+       type.set(id);
     }
 }
