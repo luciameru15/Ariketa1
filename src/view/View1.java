@@ -22,16 +22,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import controller.GestionListaEnMemoria;
+import controller.Controller;
 
 import model.Person;
 
 
 /**
  *
- * @author idoia
+ * @author Luciam
  */
-public class MainWindow extends Application {
+public class View1 extends Application {
 
     private final TableView<Person> table = new TableView<>();
 
@@ -41,18 +41,18 @@ public class MainWindow extends Application {
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
         
-        ObservableList<Person> data = GestionListaEnMemoria.cargarDatos();
+        ObservableList<Person> data = Controller.cargarDatos();
         
-        stage.setTitle("Datuen Taula");
-        stage.setWidth(450);
+        stage.setTitle("Ezkurdi K.T.");
+        stage.setWidth(650);
         stage.setHeight(550);
-        final Label label = new Label("Pertsonak");
+        final Label label = new Label("Jugadores");
         label.setFont(new Font("Arial", 20));
         
         table.setEditable(true);
         
         TableColumn<Person, String> firstNameCol =
-            new TableColumn<>("Izena");
+            new TableColumn<>("Nombre");
         firstNameCol.setMinWidth(100);
         firstNameCol.setCellValueFactory(
             new PropertyValueFactory<>("firstName"));
@@ -65,7 +65,7 @@ public class MainWindow extends Application {
             });
         
         TableColumn<Person, String> lastNameCol =
-            new TableColumn<>("Abizena");
+            new TableColumn<>("Apellido");
         lastNameCol.setMinWidth(100);
         lastNameCol.setCellValueFactory(
             new PropertyValueFactory<>("lastName"));
@@ -77,49 +77,65 @@ public class MainWindow extends Application {
             ).setLastName(t.getNewValue());
             });
         
-        TableColumn<Person, String> emailCol = new TableColumn<>("eMaila");
-        emailCol.setMinWidth(200);
-        emailCol.setCellValueFactory(
-        new PropertyValueFactory<>("email"));
-        emailCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
-        emailCol.setOnEditCommit(
+        TableColumn<Person, String> ageCol = new TableColumn<>("Edad");
+        ageCol.setMinWidth(200);
+        ageCol.setCellValueFactory(
+        new PropertyValueFactory<>("age"));
+        ageCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+        ageCol.setOnEditCommit(
             (TableColumn.CellEditEvent<Person, String> t) -> {
                 ((Person) t.getTableView().getItems().get(
                 t.getTablePosition().getRow())
-                ).setEmail(t.getNewValue());
+                ).setAge(t.getNewValue());
+            });
+        TableColumn<Person, String> positionCol = new TableColumn<>("Posicion");
+        positionCol.setMinWidth(200);
+        positionCol.setCellValueFactory(
+        new PropertyValueFactory<>("position"));
+        positionCol.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+        positionCol.setOnEditCommit(
+            (TableColumn.CellEditEvent<Person, String> t) -> {
+                ((Person) t.getTableView().getItems().get(
+                t.getTablePosition().getRow())
+                ).setPosition(t.getNewValue());
             });
         table.setItems(data);
-        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
+        table.getColumns().addAll(firstNameCol, lastNameCol, ageCol, positionCol);
         final TextField addFirstName = new TextField();
-        addFirstName.setPromptText("izen");
+        addFirstName.setPromptText("nombre");
         addFirstName.setMaxWidth(firstNameCol.getPrefWidth());
         final TextField addLastName = new TextField();
         addLastName.setMaxWidth(lastNameCol.getPrefWidth());
-        addLastName.setPromptText("abizen");
-        final TextField addEmail = new TextField();
-        addEmail.setMaxWidth(emailCol.getPrefWidth());
-        addEmail.setPromptText("email");
+        addLastName.setPromptText("apellido");
+        final TextField addage = new TextField();
+        addage.setMaxWidth(ageCol.getPrefWidth());
+        addage.setPromptText("edad");
+        final TextField addposition = new TextField();
+        addposition.setMaxWidth(ageCol.getPrefWidth());
+        addposition.setPromptText("posicion");
        
-        final Button addButton = new Button("Gehitu");        
+        final Button addButton = new Button("Agregar");        
         addButton.setOnAction((ActionEvent e) -> {
             Person p = new Person(
                 addFirstName.getText(),
                 addLastName.getText(),
-                addEmail.getText());
+                addage.getText(),
+                addposition.getText());
             data.add(p);
             
             addFirstName.clear();
             addLastName.clear();
-            addEmail.clear();
+            addage.clear();
+            addposition.clear();
         });
         
-        final Button removeButton = new Button("Ezabatu");        
+        final Button removeButton = new Button("Borrar");        
         removeButton.setOnAction((ActionEvent e) -> {
             Person person = table.getSelectionModel().getSelectedItem();    
             data.remove(person);
         });
         
-        hb.getChildren().addAll(addFirstName, addLastName, addEmail, addButton, removeButton);
+        hb.getChildren().addAll(addFirstName, addLastName, addage, addposition, addButton, removeButton);
         hb.setSpacing(3);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
